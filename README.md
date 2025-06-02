@@ -1,18 +1,18 @@
 # avif-convert
 The command line tool `avifenc` provided by [`libavif`](https://github.com/AOMediaCodec/libavif) is limited. It can only encode AVIF files from supplied PNG, JPEG and raw YUV data files, with no support for HEIC or WebP files.
 
-This library uses `libavif` to encode AVIF files, but provides an interface for encoding AVIF files from a wider range of source formats. Currently supported input formats:
-- PNG (using `libspng`)
-- JPEG (using `libjpeg-turbo`)
-- HEIC (using `libheif`)
-- WebP (using `libwebp`)
+This library uses [`libavif`](https://github.com/AOMediaCodec/libavif) to encode AVIF files, but provides an interface for encoding AVIF files from a wider range of source formats. Currently supported input formats:
+- PNG (using [`libspng`](https://github.com/randy408/libspng))
+- JPEG (using [`libjpeg-turbo`](https://github.com/libjpeg-turbo/libjpeg-turbo))
+- HEIC (using [`libheif`](https://github.com/strukturag/libheif))
+- WebP (using [`libwebp`](https://chromium.googlesource.com/webm/libwebp/))
 
 Just like `avifenc`, `avif-convert` handles EXIF and XMP metadata properly.
 
 This is not a drop-in replacement for `avifenc`, nor is it a very mature project. Many things won't work. Use at your discretion.
 
 ## Build
-This project uses [cmake](https://cmake.org/) and [vcpkg](https://vcpkg.io/). Ensure cmake is installed on your system before building. The dependencies for the project are described in [vcpkg.json](vcpkg.json).
+This project uses [cmake](https://cmake.org/) and [vcpkg](https://vcpkg.io/), as well as Java for JNI/ Ensure cmake and Java are installed on your system before building. The dependencies for the project are described in [vcpkg.json](vcpkg.json).
 
 Run this after cloning to fetch and initialise the vcpkg submodule:
 ```bash
@@ -20,14 +20,9 @@ git submodule update --init --recursive
 vcpkg/bootstrap-vcpkg.sh # or vcpkg/bootstrap-vcpkg.bat on windows
 ```
 
-Configure cmake with vcpkg:
+Configure and build with cmake:
 ```bash
-cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=vcpkg/scripts/buildsystems/vcpkg.cmake # or the path to your existing vcpkg instance
-```
-
-Build:
-```bash
-cmake --build build --config release
+cmake --preset default && cmake --build --preset default
 ```
 
 The resulting binaries will be found in a `build/` or `build/Release/` folder depending on your cmake toolchain.

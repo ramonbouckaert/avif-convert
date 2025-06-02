@@ -5,11 +5,19 @@
     {
       "name": "default",
       "hidden": false,
-      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
         "CMAKE_TOOLCHAIN_FILE": "vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_OVERLAY_TRIPLETS": "vcpkg-triplets"
       }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "default",
+      "configurePreset": "default",
+      "inheritConfigureEnvironment": true,
+      "jobs": 12
     }
   ]
 }
