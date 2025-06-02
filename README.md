@@ -9,6 +9,8 @@ This library uses `libavif` to encode AVIF files, but provides an interface for 
 
 Just like `avifenc`, `avif-convert` handles EXIF and XMP metadata properly.
 
+This is not a drop-in replacement for `avifenc`, nor is it a very mature project. Many things won't work. Use at your discretion.
+
 ## Build
 This project uses [cmake](https://cmake.org/) and [vcpkg](https://vcpkg.io/). The dependencies for the project are described in [vcpkg.json](vcpkg.json).
 
