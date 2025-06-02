@@ -33,6 +33,9 @@ The resulting binaries will be found in a `build/` or `build/Release/` folder de
 ```
 This will create a file called `my-image.avif` in the same directory.
 
+Options:
+- `-d` or `--delete-original` will delete the original file, replacing it with the AVIF file.
+
 ## TODO
 - Support Y4M files, like the original `avifenc`
 - Support GIF files, including animated GIFs.
