@@ -3,10 +3,21 @@
   "cmakeMinimumRequired": { "major": 3, "minor": 21 },
   "configurePresets": [
     {
-      "name": "default",
+      "name": "Debug",
       "hidden": false,
-      "binaryDir": "${sourceDir}/build",
+      "binaryDir": "${sourceDir}/build-debug",
       "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_TOOLCHAIN_FILE": "vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_OVERLAY_TRIPLETS": "vcpkg-triplets"
+      }
+    },
+    {
+      "name": "Release",
+      "hidden": false,
+      "binaryDir": "${sourceDir}/build-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_TOOLCHAIN_FILE": "vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_OVERLAY_TRIPLETS": "vcpkg-triplets"
       }
@@ -14,8 +25,16 @@
   ],
   "buildPresets": [
     {
-      "name": "default",
-      "configurePreset": "default",
+      "name": "Debug",
+      "configurePreset": "Debug",
+      "configuration": "Debug",
+      "inheritConfigureEnvironment": true,
+      "jobs": 12
+    },
+    {
+      "name": "Release",
+      "configurePreset": "Release",
+      "configuration": "Release",
       "inheritConfigureEnvironment": true,
       "jobs": 12
     }

@@ -10,7 +10,7 @@
 
 int main(const int argc, char *argv[]) {
     if (argc != 2) {
-        fprintf(stderr, "Usage: %s input.[png|jpg|webp|heif]\n", argv[0]);
+        fprintf(stderr, "Usage: %s input.[png|jpg|webp|heic]\n", argv[0]);
         return 1;
     }
     const char *input_path = argv[1];

@@ -22,7 +22,7 @@ vcpkg/bootstrap-vcpkg.sh # or vcpkg/bootstrap-vcpkg.bat on windows
 
 Configure and build with cmake:
 ```bash
-cmake --preset default && cmake --build --preset default
+cmake --preset Release && cmake --build --preset Release
 ```
 
 The resulting binaries will be found in a `build/` or `build/Release/` folder depending on your cmake toolchain.
