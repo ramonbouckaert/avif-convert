@@ -16,10 +16,13 @@ int main(const int argc, char *argv[]) {
     if (argc < 2) {
         fprintf(stderr,
             "Usage:\n"
-            "  %s <input.[png|jpg|webp|heic]> [--delete-original | -d]\n\n"
+            "  %s <input.[png|jpg|webp|heic]> [%s | %s]\n\n",
+            argv[0],
+            OPTION_DELETE_ORIGINAL, OPTION_DELETE_ORIGINAL_SHORT);
+        fprintf(stderr,
             "Options:\n"
-            "  --delete-original, -d    Delete the original file after conversion\n",
-            argv[0]);
+            "  %s, %s    Delete the original file after conversion\n",
+            OPTION_DELETE_ORIGINAL, OPTION_DELETE_ORIGINAL_SHORT);
         return 1;
     }
     const char *input_path = argv[1];
