@@ -12,26 +12,15 @@ Just like `avifenc`, `avif-convert` handles EXIF and XMP metadata properly.
 This is not a drop-in replacement for `avifenc`, nor is it a very mature project. Many things won't work. Use at your discretion.
 
 ## Build
-This project uses [cmake](https://cmake.org/) and [vcpkg](https://vcpkg.io/). The dependencies for the project are described in [vcpkg.json](vcpkg.json).
+This project uses [cmake](https://cmake.org/) and [vcpkg](https://vcpkg.io/). Ensure cmake is installed on your system before building. The dependencies for the project are described in [vcpkg.json](vcpkg.json).
 
-Install cmake if necessary:
-```bash
-apt install cmake # or alternatives, depending on your operating system.
-```
-
-Install vcpkg git submodule:
+Run this after cloning to fetch and initialise the vcpkg submodule:
 ```bash
 git submodule update --init --recursive
 vcpkg/bootstrap-vcpkg.sh # or vcpkg/bootstrap-vcpkg.bat on windows
 ```
-Or, install vcpkg elsewhere if you prefer:
-```bash
-git clone https://github.com/Microsoft/vcpkg.git
-cd vcpkg
-./bootstrap-vcpkg.sh # or ./bootstrap-vcpkg.bat on windows
-```
 
-Back in the repository root directory, configure cmake with the vcpkg toolchain:
+Configure cmake with vcpkg:
 ```bash
 cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=vcpkg/scripts/buildsystems/vcpkg.cmake # or the path to your existing vcpkg instance
 ```
