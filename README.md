@@ -19,7 +19,12 @@ Install cmake if necessary:
 apt install cmake # or alternatives, depending on your operating system.
 ```
 
-Install an instance of vcpkg if necessary:
+Install vcpkg git submodule:
+```bash
+git submodule update --init --recursive
+vcpkg/bootstrap-vcpkg.sh # or vcpkg/bootstrap-vcpkg.bat on windows
+```
+Or, install vcpkg elsewhere if you prefer:
 ```bash
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
