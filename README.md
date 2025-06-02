@@ -25,7 +25,7 @@ Configure and build with cmake:
 cmake --preset Release && cmake --build --preset Release
 ```
 
-The resulting binaries will be found in a `build/` or `build/Release/` folder depending on your cmake toolchain.
+The resulting binaries will be found in a `build-release/` or `build-release/Release/` folder depending on your cmake toolchain.
 
 ## Usage
 ```bash
