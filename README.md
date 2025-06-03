@@ -1,4 +1,4 @@
-# avif-convert
+# avifconvert
 The command line tool `avifenc` provided by [`libavif`](https://github.com/AOMediaCodec/libavif) is limited. It can only encode AVIF files from supplied PNG, JPEG and raw YUV data files, with no support for HEIC or WebP files.
 
 This library uses [`libavif`](https://github.com/AOMediaCodec/libavif) to encode AVIF files, but provides an interface for encoding AVIF files from a wider range of source formats. Currently supported input formats:
@@ -7,7 +7,7 @@ This library uses [`libavif`](https://github.com/AOMediaCodec/libavif) to encode
 - HEIC (using [`libheif`](https://github.com/strukturag/libheif))
 - WebP (using [`libwebp`](https://chromium.googlesource.com/webm/libwebp/))
 
-Just like `avifenc`, `avif-convert` handles EXIF and XMP metadata properly.
+Just like `avifenc`, `avifconvert` handles EXIF and XMP metadata properly.
 
 This is not a drop-in replacement for `avifenc`, nor is it a very mature project. Many things won't work. Use at your discretion.
 
@@ -29,7 +29,7 @@ The resulting binaries will be found in a `build-release/` or `build-release/Rel
 
 ## Usage
 ```bash
-./avif-convert-cli my-image.webp
+./avifconvert my-image.webp
 ```
 This will create a file called `my-image.avif` in the same directory.
 

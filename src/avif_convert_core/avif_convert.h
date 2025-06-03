@@ -27,6 +27,11 @@ extern "C" {
         size_t *output_size
     );
 
+    AVIF_CONVERT_API int is_convertible(
+        const uint8_t *input_data,
+        size_t input_size
+    );
+
 #ifdef __cplusplus
 }
 #endif

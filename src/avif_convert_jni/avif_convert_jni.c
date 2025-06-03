@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include "../avif_convert/avif_convert.h"
+#include "../avif_convert_core/avif_convert.h"
 
 JNIEXPORT jbyteArray JNICALL Java_com_io_bouckaert_avif_convert_convertToAvif(
     JNIEnv *env,

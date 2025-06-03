@@ -13,10 +13,10 @@
 #include "output/avif_writer.h"
 
 AVIF_CONVERT_API int convert_to_avif(
-        const uint8_t *input_data,
-        const size_t input_size,
-        uint8_t **output_data,
-        size_t *output_size
+    const uint8_t *input_data,
+    const size_t input_size,
+    uint8_t **output_data,
+    size_t *output_size
 ) {
     LoadedImage img;
     switch (detect_input_format(input_data, input_size)) {
@@ -73,4 +73,20 @@ AVIF_CONVERT_API int convert_to_avif(
     avifRWDataFree(&output_avif);
 
     return result;
+}
+
+AVIF_CONVERT_API int is_convertible(
+    const uint8_t *input_data,
+    const size_t input_size
+) {
+    switch (detect_input_format(input_data, input_size)) {
+        case FORMAT_PNG:
+        case FORMAT_JPEG:
+        case FORMAT_WEBP:
+        case FORMAT_HEIF:
+            return 1;
+        case FORMAT_AVIF:
+        default:
+            return 0;
+    }
 }

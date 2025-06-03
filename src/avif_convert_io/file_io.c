@@ -9,7 +9,7 @@
 
 #define AVIF_EXTENSION ".avif"
 
-char *make_avif_path(const char *input_path) {
+AVIF_CONVERT_IO_API char *make_avif_path(const char *input_path) {
     if (!input_path) return NULL;
 
     const char *dot = strrchr(input_path, '.');
@@ -28,7 +28,7 @@ char *make_avif_path(const char *input_path) {
     return output_path;
 }
 
-int read_file(const char *path, uint8_t **out_data, size_t *out_size) {
+AVIF_CONVERT_IO_API int read_file(const char *path, uint8_t **out_data, size_t *out_size) {
     FILE *f;
     portable_fopen(&f, path, "rb");
     if (!f) return 1;
@@ -59,7 +59,7 @@ int read_file(const char *path, uint8_t **out_data, size_t *out_size) {
     return 0;
 }
 
-int write_file(const char *path, uint8_t const *data, const size_t size) {
+AVIF_CONVERT_IO_API int write_file(const char *path, uint8_t const *data, const size_t size) {
     FILE *f = NULL;
     const int err = portable_fopen(&f, path, "wb");
     if (f == NULL || err != 0) {

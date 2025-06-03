@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(avif-convert C)
+project(avifconvert C)
 set(CMAKE_C_STANDARD 99)
 set(VCPKG_LIBRARY_LINKAGE static)
 
@@ -10,26 +10,29 @@ find_package(libheif CONFIG REQUIRED)
 find_package(SPNG CONFIG REQUIRED)
 find_package(JPEG REQUIRED)
 find_package(WebP CONFIG REQUIRED)
+find_package(libuv CONFIG REQUIRED)
 
 include_directories(${JNI_INCLUDE_DIRS})
 
-add_library(avif_convert SHARED
-        src/avif_convert/common.h
-        src/avif_convert/common.c
-        src/avif_convert/input/loaders.h
-        src/avif_convert/input/png_loader.c
-        src/avif_convert/input/heif_loader.c
-        src/avif_convert/output/avif_writer.c
-        src/avif_convert/input/jpg_loader.c
-        src/avif_convert/input/webp_loader.c
-        src/avif_convert/input/loaders.h
-        src/avif_convert/avif_convert.c
-        src/avif_convert/avif_convert.h
+# avifconvertcore
+
+add_library(avifconvertcore SHARED
+        src/avif_convert_core/common.h
+        src/avif_convert_core/common.c
+        src/avif_convert_core/input/loaders.h
+        src/avif_convert_core/input/png_loader.c
+        src/avif_convert_core/input/heif_loader.c
+        src/avif_convert_core/output/avif_writer.c
+        src/avif_convert_core/input/jpg_loader.c
+        src/avif_convert_core/input/webp_loader.c
+        src/avif_convert_core/input/loaders.h
+        src/avif_convert_core/avif_convert.c
+        src/avif_convert_core/avif_convert.h
 )
 
-target_compile_definitions(avif_convert PRIVATE AVIF_CONVERT_EXPORTS)
+target_compile_definitions(avifconvertcore PRIVATE AVIF_CONVERT_EXPORTS)
 
-target_link_libraries(avif_convert PRIVATE
+target_link_libraries(avifconvertcore PRIVATE
         avif
         heif
         JPEG::JPEG
@@ -37,40 +40,42 @@ target_link_libraries(avif_convert PRIVATE
         $<IF:$<TARGET_EXISTS:spng::spng>,spng::spng,spng::spng_static>
 )
 
-add_library(avif_convert_jni SHARED
+# avifconvert-jni
+
+add_library(avifconvert-jni SHARED
         src/avif_convert_jni/avif_convert_jni.h
         src/avif_convert_jni/avif_convert_jni.c
 )
 
-target_link_libraries(avif_convert_jni PUBLIC avif_convert)
+target_link_libraries(avifconvert-jni PUBLIC avifconvertcore)
 
-add_executable(avif-convert-cli src/avif_convert_cli/main.c
-        src/avif_convert_cli/file_io.h
-        src/avif_convert_cli/file_io.c
+# avifconvert-io
+add_library(avifconvertio SHARED
+        src/avif_convert_io/file_io.h
+        src/avif_convert_io/file_io.c
 )
 
-target_link_libraries(avif-convert-cli PUBLIC avif_convert)
+target_compile_definitions(avifconvertio PRIVATE AVIF_CONVERT_IO_EXPORTS)
+
+# avifconvert executable
+
+add_executable(avifconvert src/avif_convert/main.c)
+
+target_link_libraries(avifconvert PUBLIC avifconvertcore avifconvertio)
+
+# avifconvertwatch executable
+
+add_executable(avifconvertwatch src/avif_convert_watch/main.c
+        src/avif_convert_watch/file_watcher.c
+        src/avif_convert_watch/file_watcher.h
+)
+
+target_link_libraries(avifconvertwatch PUBLIC avifconvertcore avifconvertio
+        PRIVATE $<IF:$<TARGET_EXISTS:libuv::uv_a>,libuv::uv_a,libuv::uv>
+)
+
+# Hacks
 
 if(UNIX AND NOT APPLE)
-    target_link_libraries(avif_convert PRIVATE stdc++)
-endif()
-
-if (WIN32)
-    set(VCPKG_BIN_DIR "vcpkg_installed/x64-windows/bin")
-    add_custom_command(TARGET avif-convert-cli POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${VCPKG_BIN_DIR}/aom.dll"
-            "${VCPKG_BIN_DIR}/avif.dll"
-            "${VCPKG_BIN_DIR}/heif.dll"
-            "${VCPKG_BIN_DIR}/spng.dll"
-            "${VCPKG_BIN_DIR}/jpeg62.dll"
-            "${VCPKG_BIN_DIR}/libwebp.dll"
-            "${VCPKG_BIN_DIR}/libwebpdecoder.dll"
-            "${VCPKG_BIN_DIR}/libwebpdemux.dll"
-            "${VCPKG_BIN_DIR}/libyuv.dll"
-            "${VCPKG_BIN_DIR}/libsharpyuv.dll"
-            "${VCPKG_BIN_DIR}/libx265.dll"
-            "${VCPKG_BIN_DIR}/libde265.dll"
-            $<TARGET_FILE_DIR:avif-convert-cli>
-    )
+    target_link_libraries(avifconvertcore PRIVATE stdc++)
 endif()

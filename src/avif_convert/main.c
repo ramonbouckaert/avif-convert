@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "file_io.h"
-#include "../avif_convert/avif_convert.h"
+#include "../avif_convert_io/file_io.h"
+#include "../avif_convert_core/avif_convert.h"
 
 #define OPTION_DELETE_ORIGINAL "--delete-original"
 #define OPTION_DELETE_ORIGINAL_SHORT "-d"

@@ -4,6 +4,18 @@
 
 #ifndef FILE_IO_H
 #define FILE_IO_H
+#ifdef __cplusplus
+extern "C" {
+#endif
+#ifdef _WIN32
+#ifdef AVIF_CONVERT_IO_EXPORTS
+#define AVIF_CONVERT_IO_API __declspec(dllexport)
+#else
+#define AVIF_CONVERT_IO_API __declspec(dllimport)
+#endif
+#else
+#define AVIF_CONVERT_IO_API
+#endif
 #ifdef _MSC_VER
 // Microsoft compiler has fopen_s
 #define portable_fopen(fp, filename, mode) fopen_s(fp, filename, mode)
@@ -20,9 +32,14 @@
 #endif
 #include <stdint.h>
 
-char *make_avif_path(const char *input_path);
+AVIF_CONVERT_IO_API char *make_avif_path(const char *input_path);
 
-int read_file(const char *path, uint8_t **out_data, size_t *out_size);
+AVIF_CONVERT_IO_API int read_file(const char *path, uint8_t **out_data, size_t *out_size);
 
-int write_file(const char *path, uint8_t const *data, size_t size);
+AVIF_CONVERT_IO_API int write_file(const char *path, uint8_t const *data, size_t size);
+
+
+#ifdef __cplusplus
+}
+#endif
 #endif //FILE_IO_H
