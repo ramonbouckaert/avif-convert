@@ -32,9 +32,13 @@ The resulting binaries will be found in a `build-release/` or `build-release/Rel
 ./avifconvert my-image.webp
 ```
 This will create a file called `my-image.avif` in the same directory.
-
 Options:
 - `-d` or `--delete-original` will delete the original file, replacing it with the AVIF file.
+
+```bash
+./avifconvertwatch /path/to/my/dir
+```
+This will run continuously, watching for new convertible files in that directory, or subdirectories up to one level deep. If it finds a convertible file, it will convert it to AVIF format and delete the original.
 
 ## TODO
 - Support Y4M files, like the original `avifenc`
