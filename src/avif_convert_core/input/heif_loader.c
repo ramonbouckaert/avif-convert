@@ -28,8 +28,12 @@ int load_heif(const uint8_t *data, const size_t size, LoadedImage *out_image) {
         return -1;
     }
 
+    struct heif_decoding_options *options = heif_decoding_options_alloc();
+    options->ignore_transformations = 1;
+
     struct heif_image *img;
-    const struct heif_error err3 = heif_decode_image(handle, &img, heif_colorspace_RGB, heif_chroma_interleaved_RGBA, NULL);
+    const struct heif_error err3 = heif_decode_image(handle, &img, heif_colorspace_RGB, heif_chroma_interleaved_RGBA, options);
+    heif_decoding_options_free(options);
     if (err3.code != heif_error_Ok) {
         fprintf(stderr, "Failed to decode HEIF image\n");
         heif_image_release(img);
