@@ -9,7 +9,6 @@
 #include "avif_writer.h"
 
 int write_avif(const LoadedImage *img, avifRWData *out_data) {
-    printf("Starting to create AVIF file\n");
     // RGB Image construction
     const avifRGBImage rgb = {
         .width = img->width,

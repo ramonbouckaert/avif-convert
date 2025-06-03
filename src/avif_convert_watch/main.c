@@ -31,16 +31,23 @@ void file_change_handler(const char *input_path) {
         char *output_path = make_avif_path(input_path);
         const int write_result = write_file(output_path, output_data, output_size);
         free(output_data);
-        free(output_path);
         if (write_result != 0) {
             fprintf(stderr, "Failed to write to output file\n");
             return;
         }
 
+        // Copy date created/date modified information from the input file to the output file
+        if (copy_file_times(input_path, output_path) != 0) {
+            fprintf(stderr, "Failing to copy file metadata: %s\n", input_path);
+            free(output_path);
+            return;
+        }
+
         // Delete the original file
         if (remove(input_path) != 0) {
-            fprintf(stderr, "Warning: Failed to delete original file: %s\n", input_path);
+            fprintf(stderr, "Failed to delete original file: %s\n", input_path);
         }
+        free(output_path);
     }
 }
 

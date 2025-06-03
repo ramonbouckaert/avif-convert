@@ -38,6 +38,7 @@ AVIF_CONVERT_IO_API int read_file(const char *path, uint8_t **out_data, size_t *
 
 AVIF_CONVERT_IO_API int write_file(const char *path, uint8_t const *data, size_t size);
 
+AVIF_CONVERT_IO_API int copy_file_times(const char *src, const char *dst);
 
 #ifdef __cplusplus
 }

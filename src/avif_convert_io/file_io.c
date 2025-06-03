@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#if defined(_WIN32)
+#include <windows.h>
+#endif
 
 #define AVIF_EXTENSION ".avif"
 
@@ -71,3 +74,53 @@ AVIF_CONVERT_IO_API int write_file(const char *path, uint8_t const *data, const 
     printf("Wrote %s (%zu bytes)\n", path, size);
     return 0;
 }
+
+#if defined(_WIN32)
+AVIF_CONVERT_IO_API int copy_file_times(const char *src, const char *dst) {
+    const HANDLE hSrc = CreateFileA(src, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
+    if (hSrc == INVALID_HANDLE_VALUE) return -1;
+
+    FILETIME creationTime;
+    FILETIME lastAccessTime;
+    FILETIME lastWriteTime;
+    if (!GetFileTime(hSrc, &creationTime, &lastAccessTime, &lastWriteTime)) {
+        CloseHandle(hSrc);
+        return -1;
+    }
+    CloseHandle(hSrc);
+
+    HANDLE hDst = CreateFileA(dst, FILE_WRITE_ATTRIBUTES, 0, NULL, OPEN_EXISTING, 0, NULL);
+    if (hDst == INVALID_HANDLE_VALUE) return -1;
+
+    const BOOL result = SetFileTime(hDst, &creationTime, &lastAccessTime, &lastWriteTime);
+    CloseHandle(hDst);
+    return result ? 0 : -1;
+}
+
+#else
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
+#include <time.h>
+
+AVIF_CONVERT_IO_API int copy_file_times(const char *src, const char *dst) {
+    struct stat src_stat;
+    if (stat(src, &src_stat) != 0) return -1;
+
+#if defined(__APPLE__)
+    struct timespec times[2];
+    times[0] = src_stat.st_atimespec;
+    times[1] = src_stat.st_mtimespec;
+#else
+    struct timespec times[2];
+    times[0] = src_stat.st_atim;
+    times[1] = src_stat.st_mtim;
+#endif
+
+    if (utimensat(AT_FDCWD, dst, times, 0) != 0) return -1;
+
+    return 0;
+}
+#endif
