@@ -26,6 +26,10 @@ typedef struct PendingEvent {
     struct PendingEvent *next;
 } PendingEvent;
 
+typedef struct {
+    char *path;
+} file_task_t;
+
 PendingEvent *pending_head = NULL;
 uv_timer_t flush_timer;
 
@@ -108,6 +112,22 @@ void safe_strcpy(char *dest, size_t dest_size, const char *src) {
 #endif
 }
 
+void do_file_task(uv_work_t *req) {
+    const file_task_t *task = req->data;
+    if (file_change_handler) {
+        file_change_handler(task->path);
+    } else {
+        fprintf(stderr, "File change handler not set for path: %s\n", task->path);
+    }
+}
+
+void after_file_task(uv_work_t *req, int status) {
+    file_task_t *task = req->data;
+    free(task->path);
+    free(task);
+    free(req);
+}
+
 void add_pending_event(const char *full_path) {
     for (const PendingEvent *e = pending_head; e; e = e->next) {
         if (strcmp(e->path, full_path) == 0) return;
@@ -122,8 +142,14 @@ void add_pending_event(const char *full_path) {
 void flush_pending_events(const uv_timer_t *handle) {
     PendingEvent *e = pending_head;
     while (e) {
-        if (file_exists(e->path) && file_change_handler) {
-            file_change_handler(e->path);
+        if (file_exists(e->path)) {
+            uv_work_t *req = malloc(sizeof(uv_work_t));
+            file_task_t *task = malloc(sizeof(file_task_t));
+
+            task->path = _strdup(e->path);
+            req->data = task;
+
+            uv_queue_work(uv_default_loop(), req, &do_file_task, &after_file_task);
         }
         PendingEvent *next = e->next;
         free(e);
