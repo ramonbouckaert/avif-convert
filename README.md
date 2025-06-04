@@ -16,7 +16,7 @@ In addition, JNI binding are provided, but they are untested.
 This is not a drop-in replacement for `avifenc`, nor is it a very mature project. Many things won't work. Use at your discretion.
 
 ## Install
-Pre-built binaries are available for download on the [releases page]("/releases") for the following platforms:
+Pre-built binaries are available for download on the [releases page]("https://github.com/ramonbouckaert/avifconvert/releases") for the following platforms:
 - Linux (x86_64 and arm64)
 - Windows (x86_64)
 
