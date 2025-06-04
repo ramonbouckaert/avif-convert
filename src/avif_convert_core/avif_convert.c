@@ -16,7 +16,9 @@ AVIF_CONVERT_API int convert_to_avif(
     const uint8_t *input_data,
     const size_t input_size,
     uint8_t **output_data,
-    size_t *output_size
+    size_t *output_size,
+    const int speed,
+    const int lossy_quality
 ) {
     LoadedImage img;
     switch (detect_input_format(input_data, input_size)) {
@@ -58,7 +60,7 @@ AVIF_CONVERT_API int convert_to_avif(
     }
 
     avifRWData output_avif = AVIF_DATA_EMPTY;
-    const int result = write_avif(&img, &output_avif);
+    const int result = write_avif(&img, &output_avif, speed, lossy_quality);
     free_loaded_image(&img);
 
     *output_data = malloc(output_avif.size);

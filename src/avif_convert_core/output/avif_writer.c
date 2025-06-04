@@ -8,7 +8,7 @@
 
 #include "avif_writer.h"
 
-int write_avif(const LoadedImage *img, avifRWData *out_data) {
+int write_avif(const LoadedImage *img, avifRWData *out_data, const int speed, const int lossy_quality) {
     // RGB Image construction
     const avifRGBImage rgb = {
         .width = img->width,
@@ -32,11 +32,11 @@ int write_avif(const LoadedImage *img, avifRWData *out_data) {
     avifEncoder *encoder = avifEncoderCreate();
     encoder->codecChoice = AVIF_CODEC_CHOICE_AUTO;
     encoder->maxThreads = 8;
-    encoder->speed = 5;
+    encoder->speed = speed;
     if (img->lossless) {
         encoder->quality = 100;
     } else {
-        encoder->quality = 80;
+        encoder->quality = lossy_quality;
     }
 
     // Encode

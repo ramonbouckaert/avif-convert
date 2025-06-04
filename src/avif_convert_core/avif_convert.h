@@ -24,7 +24,9 @@ extern "C" {
         const uint8_t *input_data,
         size_t input_size,
         uint8_t **output_data,
-        size_t *output_size
+        size_t *output_size,
+        int speed,
+        int lossy_quality
     );
 
     AVIF_CONVERT_API int is_convertible(

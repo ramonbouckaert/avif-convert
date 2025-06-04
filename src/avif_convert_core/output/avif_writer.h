@@ -6,6 +6,6 @@
 #define AVIF_WRITER_H
 #include "../common.h"
 
-int write_avif(const LoadedImage *img, avifRWData *out_data);
+int write_avif(const LoadedImage *img, avifRWData *out_data, int speed, int lossy_quality);
 
 #endif //AVIF_WRITER_H

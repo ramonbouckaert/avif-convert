@@ -22,7 +22,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_io_bouckaert_avif_convert_convertToAvif(
     size_t output_size = 0;
 
     // Call C function
-    const int result = convert_to_avif((const uint8_t*)input_bytes, input_size, &output_data, &output_size);
+    const int result = convert_to_avif((const uint8_t*)input_bytes, input_size, &output_data, &output_size, 5, 80);
 
     (*env)->ReleaseByteArrayElements(env, input, input_bytes, JNI_ABORT);
 

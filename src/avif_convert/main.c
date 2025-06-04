@@ -48,7 +48,7 @@ int main(const int argc, char *argv[]) {
 
     uint8_t *output_data = NULL;
     size_t output_size = 0;
-    const int result = convert_to_avif(file_data, file_size, &output_data, &output_size);
+    const int result = convert_to_avif(file_data, file_size, &output_data, &output_size, 5, 80);
     if (result != 0) return result;
 
     free(file_data);
