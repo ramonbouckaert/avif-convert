@@ -7,14 +7,14 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#ifdef _WIN32
-#ifdef AVIF_CONVERT_IO_EXPORTS
-#define AVIF_CONVERT_IO_API __declspec(dllexport)
+#if defined(_WIN32) && defined(AVIFCONVERTIO_SHARED)
+    #ifdef AVIFCONVERTIO_EXPORTS
+        #define AVIF_CONVERT_IO_API __declspec(dllexport)
+    #else
+        #define AVIF_CONVERT_IO_API __declspec(dllimport)
+    #endif
 #else
-#define AVIF_CONVERT_IO_API __declspec(dllimport)
-#endif
-#else
-#define AVIF_CONVERT_IO_API
+    #define AVIF_CONVERT_IO_API
 #endif
 #ifdef _MSC_VER
 // Microsoft compiler has fopen_s

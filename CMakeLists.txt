@@ -33,7 +33,8 @@ add_library(avifconvertcore SHARED
         src/avif_convert_core/avif_convert.h
 )
 
-target_compile_definitions(avifconvertcore PRIVATE AVIF_CONVERT_EXPORTS)
+# Uncomment the following line when building avifconvertcore as a SHARED library rather than STATIC
+target_compile_definitions(avifconvertcore PRIVATE AVIFCONVERTCORE_SHARED AVIFCONVERTCORE_EXPORTS)
 
 target_link_libraries(avifconvertcore PRIVATE
         avif
@@ -53,12 +54,14 @@ add_library(avifconvert-jni SHARED
 target_link_libraries(avifconvert-jni PUBLIC avifconvertcore)
 
 # avifconvert-io
+
 add_library(avifconvertio SHARED
         src/avif_convert_io/file_io.h
         src/avif_convert_io/file_io.c
 )
 
-target_compile_definitions(avifconvertio PRIVATE AVIF_CONVERT_IO_EXPORTS)
+# Uncomment the following line when building avifconvertio as a SHARED library rather than STATIC
+target_compile_definitions(avifconvertio PRIVATE AVIFCONVERTIO_SHARED AVIFCONVERTIO_EXPORTS)
 
 # avifconvert executable
 

@@ -10,14 +10,14 @@ extern "C" {
 #include <stdint.h>
 #include "common.h"
 
-#ifdef _WIN32
-#ifdef AVIF_CONVERT_EXPORTS
-#define AVIF_CONVERT_API __declspec(dllexport)
+#if defined(_WIN32) && defined(AVIFCONVERTCORE_SHARED)
+    #ifdef AVIFCONVERTCORE_EXPORTS
+        #define AVIF_CONVERT_API __declspec(dllexport)
+    #else
+        #define AVIF_CONVERT_API __declspec(dllimport)
+    #endif
 #else
-#define AVIF_CONVERT_API __declspec(dllimport)
-#endif
-#else
-#define AVIF_CONVERT_API
+    #define AVIF_CONVERT_API
 #endif
 
     AVIF_CONVERT_API int convert_to_avif(
