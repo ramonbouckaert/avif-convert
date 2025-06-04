@@ -11,8 +11,15 @@
 
 #define OPTION_DELETE_ORIGINAL "--delete-original"
 #define OPTION_DELETE_ORIGINAL_SHORT "-d"
+#ifndef AVIFCONVERT_VERSION
+#define AVIFCONVERT_VERSION "unknown"
+#endif
 
 int main(const int argc, char *argv[]) {
+    if (argc == 2 && (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--version") == 0)) {
+        printf("%s\n", AVIFCONVERT_VERSION);
+        return 0;
+    }
     if (argc < 2) {
         fprintf(stderr,
             "Usage:\n"

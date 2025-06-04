@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.21)
-project(avifconvert C)
+project(avifconvert VERSION 0.1.0 LANGUAGES C)
+set(VERSION_SUFFIX "-SNAPSHOT")
+set(AVIFCONVERT_VERSION "${PROJECT_VERSION}${VERSION_SUFFIX}")
+
 set(CMAKE_C_STANDARD 99)
 set(VCPKG_LIBRARY_LINKAGE static)
 
@@ -61,6 +64,8 @@ target_compile_definitions(avifconvertio PRIVATE AVIF_CONVERT_IO_EXPORTS)
 
 add_executable(avifconvert src/avif_convert/main.c)
 
+target_compile_definitions(avifconvert PRIVATE AVIFCONVERT_VERSION="${AVIFCONVERT_VERSION}")
+
 target_link_libraries(avifconvert PUBLIC avifconvertcore avifconvertio)
 
 # avifconvertwatch executable
@@ -69,6 +74,8 @@ add_executable(avifconvertwatch src/avif_convert_watch/main.c
         src/avif_convert_watch/file_watcher.c
         src/avif_convert_watch/file_watcher.h
 )
+
+target_compile_definitions(avifconvertwatch PRIVATE AVIFCONVERT_VERSION="${AVIFCONVERT_VERSION}")
 
 target_link_libraries(avifconvertwatch PUBLIC avifconvertcore avifconvertio
         PRIVATE $<IF:$<TARGET_EXISTS:libuv::uv_a>,libuv::uv_a,libuv::uv>

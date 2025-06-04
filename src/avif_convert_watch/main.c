@@ -13,6 +13,10 @@
 #include "file_watcher.h"
 #include "../avif_convert_core/avif_convert.h"
 
+#ifndef AVIFCONVERT_VERSION
+#define AVIFCONVERT_VERSION "unknown"
+#endif
+
 typedef int (*retryable_fn)(const void *ctx);
 
 int retry(const int max_attempts, const retryable_fn fn, const void *ctx) {
@@ -121,6 +125,10 @@ void file_change_handler(const char *input_path) {
 }
 
 int main(const int argc, char *argv[]) {
+    if (argc == 2 && (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--version") == 0)) {
+        printf("%s\n", AVIFCONVERT_VERSION);
+        return 0;
+    }
     if (argc != 2) {
         fprintf(stderr, "Usage: %s <directory>\n", argv[0]);
         return 1;
