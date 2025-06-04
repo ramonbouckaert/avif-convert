@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #if defined(_WIN32)
 #include <windows.h>
 #endif
@@ -17,8 +18,15 @@ AVIF_CONVERT_IO_API char *make_avif_path(const char *input_path) {
 
     const char *dot = strrchr(input_path, '.');
     const size_t base_len = dot ? (size_t)(dot - input_path) : strlen(input_path);
-    const size_t ext_len = strlen(AVIF_EXTENSION);
+    const char *ext = AVIF_EXTENSION;
+    const size_t ext_len = strlen(ext);
     const size_t total_len = base_len + ext_len + 1;  // +1 for null terminator
+
+    // Determine desired case for the new extension
+    int use_uppercase = 0;
+    if (dot && isalpha(dot[1]) && isupper((unsigned char)dot[1])) {
+        use_uppercase = 1;
+    }
 
     char *output_path = malloc(total_len);
     if (!output_path) return NULL;
@@ -26,7 +34,11 @@ AVIF_CONVERT_IO_API char *make_avif_path(const char *input_path) {
     // Copy base path
     memcpy(output_path, input_path, base_len);
     // Append extension
-    memcpy(output_path + base_len, AVIF_EXTENSION, ext_len + 1);  // includes null terminator
+    for (size_t i = 0; i < ext_len; ++i) {
+        output_path[base_len + i] = use_uppercase ? (char) toupper((unsigned char) ext[i]) // NOLINT(*-narrowing-conversions)
+                                                  : (char) tolower((unsigned char) ext[i]); // NOLINT(*-narrowing-conversions)
+    }
+    output_path[base_len + ext_len] = '\0'; // Finish with null terminator
 
     return output_path;
 }
