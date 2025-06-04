@@ -15,6 +15,13 @@ In addition, JNI binding are provided, but they are untested.
 
 This is not a drop-in replacement for `avifenc`, nor is it a very mature project. Many things won't work. Use at your discretion.
 
+## Install
+Pre-built binaries are available for download on the [releases page]("/releases") for the following platforms:
+- Linux (x86_64 and arm64)
+- Windows (x86_64)
+
+Otherwise, you can build from source as described below.
+
 ## Build
 This project uses [cmake](https://cmake.org/) and [vcpkg](https://vcpkg.io/), as well as Java for JNI bindings. Ensure cmake and Java are installed on your system before building. The dependencies for the project are described in [vcpkg.json](vcpkg.json).
 
