@@ -9,7 +9,7 @@ This library uses [`libavif`](https://github.com/AOMediaCodec/libavif) to encode
 
 Just like `avifenc`, `avifconvert` handles EXIF and XMP metadata properly.
 
-Alongside `avifconvert`, this project also provides a `avifconvertwatch` tool that can be used to watch a directory for new files and convert them to AVIF format automatically. This is useful for integrating into workflows where images are added to a directory. I use it on my NAS along with [PhotoSync](https://www.photosync-app.com/) to convert incoming images after upload.
+Alongside `avifconvert`, this project also provides a `avifconvertwatch` tool that can be used to watch a directory for new files and convert them to AVIF format automatically. This is useful for integrating into workflows where images are added to a directory. I use it on my NAS along with [PhotoSync](https://www.photosync-app.com/) on my phone to convert incoming images after upload.
 
 In addition, JNI binding are provided, but they are untested.
 
