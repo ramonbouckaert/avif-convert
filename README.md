@@ -9,6 +9,10 @@ This library uses [`libavif`](https://github.com/AOMediaCodec/libavif) to encode
 
 Just like `avifenc`, `avifconvert` handles EXIF and XMP metadata properly.
 
+Alongside `avifconvert`, this project also provides a `avifconvertwatch` tool that can be used to watch a directory for new files and convert them to AVIF format automatically. This is useful for integrating into workflows where images are added to a directory. I use it on my NAS along with [PhotoSync](https://www.photosync-app.com/) to convert incoming images after upload.
+
+In addition, JNI binding are provided, but they are untested.
+
 This is not a drop-in replacement for `avifenc`, nor is it a very mature project. Many things won't work. Use at your discretion.
 
 ## Build
@@ -34,11 +38,14 @@ The resulting binaries will be found in a `build-release/` or `build-release/Rel
 This will create a file called `my-image.avif` in the same directory.
 Options:
 - `-d` or `--delete-original` will delete the original file, replacing it with the AVIF file.
+- `-v` or `--version` with no other arguments will print the version of the tool.
 
 ```bash
 ./avifconvertwatch /path/to/my/dir
 ```
-This will run continuously, watching for new convertible files in that directory, or subdirectories up to one level deep. If it finds a convertible file, it will convert it to AVIF format and delete the original.
+This will run continuously, watching for new convertible files in that directory, or subdirectories up to one level deep, converting to AVIF and deleting the original file.
+Options:
+- `-v` or `--version` with no other arguments will print the version of the tool.
 
 ## TODO
 - Support Y4M files, like the original `avifenc`
@@ -46,4 +53,5 @@ This will run continuously, watching for new convertible files in that directory
 - Support BMP files
 - Support TIFF files
 - Support JPEG XL files
+- Support `avifconvertwatch` with unlimited nested subdirectories, currently it only watches one subdirectory deep.
 - Add tests
