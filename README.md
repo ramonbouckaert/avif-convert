@@ -54,4 +54,5 @@ Options:
 - Support TIFF files
 - Support JPEG XL files
 - Support `avifconvertwatch` with unlimited nested subdirectories, currently it only watches one subdirectory deep.
+- Get static linking working on all platforms
 - Add tests
